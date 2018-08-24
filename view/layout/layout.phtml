@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+    <title>仪器目录</title> 
+    <base href="<?= H(URL('/')) ?>">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/equipment.css" rel="stylesheet">
+    <link href="assets/fonts/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/popover.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/equipment.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 bg-color-grey left-nav" style="padding: 0px;">
+                <?= $sidebar ?>
+            </div>
+            <div class="col-md-10">
+                <div>
+                    <?= $header ?>
+                </div>
+                <div class="padder">
+                    <?= $body ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <?= $footer ?>
+    </div>
+</body>
+</html>

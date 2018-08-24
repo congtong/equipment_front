@@ -1,0 +1,47 @@
+<?php 
+if (!$step) {
+    $step = 20;
+}
+$pages = ceil($total / $step);
+$query = (string)http_build_query($form ? : []);
+?>
+<nav class="text-right">
+  <ul class="pagination">
+  <?php
+  if ($pages <= 6) :
+    if ($start > 1) :
+    ?>
+    <li class="page-item"><a class="page-link" href="<?= "{$uri}?{$query}" ?>">&laquo;</a></li>
+    <?php 
+    endif;
+    for ($i = 1; $i <= $pages; $i ++):
+    ?>
+    <li class="page-item <?= $i == $start ? 'active' : '' ?>"><a class="page-link" href="<?= "{$uri}/{$i}?{$query}" ?>"><?= $i ?></a></li>
+    <?php 
+    endfor;
+    if ($start < $pages) :
+    ?>
+    <li class="page-item"><a class="page-link" href="<?= "{$uri}/{$pages}?{$query}" ?>">&raquo;</a></li>
+    <?php 
+    endif;
+  else:
+    if ($start > 1) :
+    ?>
+    <li class="page-item"><a class="page-link" href="<?= "{$uri}?{$query}" ?>">&laquo;</a></li>
+    <?php 
+    endif;
+    for ($i = $start - 2 >= 0 ? $start - 2 : $start ; $i <= ($start + 2 >= $pages ? $pages : $start + 2); $i ++):
+    if ($i == 0) continue;
+    ?>
+    <li class="page-item <?= $i == $start ? 'active' : '' ?>"><a class="page-link" href="<?= "{$uri}/{$i}?{$query}" ?>"><?= $i ?></a></li>
+    <?php 
+    endfor;
+    if ($start < $pages) :
+    ?>
+    <li class="page-item"><a class="page-link" href="<?= "{$uri}/{$pages}?{$query}" ?>">&raquo;</a></li>
+    <?php 
+    endif;
+  endif;
+  ?>
+  </ul>
+</nav>

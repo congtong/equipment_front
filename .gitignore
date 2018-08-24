@@ -1,0 +1,13 @@
+._*
+*.*~
+.*.cache
+.DS_Store
+.env
+cache/
+vendor/
+reports/
+build/
+web/
+composer.lock
+composer.json
+/raw/config/@*

@@ -1,0 +1,96 @@
+<form class="bg-white" id='equipmentForm'>
+    <?php if ($fields) foreach ($fields as $name => $field) :
+        $title = $field['title'];
+        $type = $field['type'];
+        $require = $field['require'];
+        $val = $field['value'];
+    ?>  
+        <?php if ($type == 'hidden') : ?>
+            <input type="hidden" name="<?=$name?>" value="<?=$val?>">
+        <?php endif;?>
+        <?php if ($type == 'text') : ?>
+            <div class="form-group row form-field-row padder10">
+                <label class="offset-md-2 col-md-2 col-form-label text-center"><?= $title ?></label>
+                <div class="col-md-4">
+                    <input type="text" name="<?= $name?>" value="<?=$val?>"class="form-control input-field"  placeholder="请填写<?= $title ?>">
+                </div>
+                <?php if ($require) : ?>
+                <div class="col-sm-2">
+                <span class="require">*必填</span>
+                </div>
+                <?php endif; ?>
+            </div>
+        <?php endif;?>
+        <?php if ($type == 'select') : ?>
+            <div class="form-group row form-field-row">
+                <label class="offset-md-2 col-md-2 col-form-label text-center"><?= $title ?></label>
+                <div class="col-md-4 text-center">
+                    <select class="form-control input-field" name="<?=$name?>">
+                        <?php foreach ($field['options'] as $k => $v) :?>
+                            <option name = "<?= $name?>" value="<?=$k?>" <?=$k==$val?'selected':''?>><?= $v ?></option>
+                        <?php endforeach;?>
+                    </select>
+                </div>
+                <?php if ($require) : ?>
+                <div class="col-sm-2">
+                    <span class="require">*必填</span>
+                </div>
+                <?php endif; ?>
+            </div>
+        <?php endif;?>
+        <?php if ($type == 'textarea') : ?>
+            <div class="form-group row padder10">
+                <label class="offset-md-2 col-md-2 col-form-label text-center"><?= $title?></label>
+                <div class="col-md-4 text-center">
+                    <textarea class="form-control" name="<?= $name?>" rows="3"><?=$val?></textarea>
+                </div>
+                <?php if ($require) : ?>
+                    <div class="col-sm-2">
+                        <span class="require">*必填</span>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif;?>
+        <?php if ($type == 'radio') : ?>
+            <div class="form-group row form-field-ro padder10">
+                <label class="offset-md-2 col-md-2 col-form-label text-center"><?= $title?></label>
+                <div class="col-md-4 text-left line_height40">
+                    <?php foreach ($field['options'] as $key => $value) : ?>
+                    <label class="padder_left10"><input type="radio"  value="<?= $key?>" <?=$key==$val?'checked':''?> name="<?= $name?>"><span class="padder_left10"><?= $value?><span></label>
+                    <?php endforeach;?>
+                </div>
+            </div>
+        <?php endif;?>
+    <?php endforeach; ?>
+</form>
+<div class="form-group form-field-ro padder10">
+        <div class="offset-md-4 col-md-4">
+        <button id="saveButton" type="submit" class="btn btn-primary"><?= T('保存')?></button>
+        </div>
+</div>
+<script>
+$('#saveButton').click(function() {
+        var formdata = new FormData($("#equipmentForm")[0]);
+        var name = formdata.get('name');
+        var incharges = formdata.get('incharges');
+        var contacts = formdata.get('contacts');
+        if (name == '' || incharges == '' || contacts == '') {
+            alert('请输入必填项');
+        }
+        $.ajax({
+            url: 'ajax/equipment/save',
+            data: formdata,
+            type: 'post',
+            processData: false,
+            contentType: false,  
+            success:function(res){
+                if (res.result == 'success') {
+                    alert('保存成功');
+                    window.location.href="equipment";
+                } else {
+                    alert('保存失败');
+                }
+            }
+        })
+    })
+</script>

@@ -1,0 +1,8 @@
+<?php $placeholder = $search['placeholder'] ? : "请输入{$search['title']}"; ?>
+<div class="col-md-4 search_height">
+  <div class="input-group heighted">
+    <span class="input-group-addon"><?= $search['title'] ?></span>
+    <input name="<?= $name ?>" type="text" class="form-control input-sm" 
+    placeholder="<?= T($placeholder) ?>" value="<?= H($search['value']) ?>">
+  </div><!-- /input-group -->
+</div>

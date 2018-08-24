@@ -1,0 +1,11 @@
+<div class="col-md-4 search_height">
+  <div class="input-group heighted">
+    <span class="input-group-addon" ><?= $search['title'] ?></span>
+    <select name="<?= $name ?>" class="input-sm form-control">
+      <option></option> 
+      <?php foreach ($search['values'] as $key => $value) : ?>
+      <option value="<?= $value ?>" <?= $search['value'] == $value ? 'selected' : '' ?> ><?= $value ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div><!-- /input-group -->
+</div>

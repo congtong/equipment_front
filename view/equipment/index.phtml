@@ -1,0 +1,72 @@
+<div class="panel panel-default table-responsive">
+  <!-- 搜索模块 -->
+  <nav class="nav nav-pills nav-justified bg-white padder-m m-b-sm">
+      <a class="nav-link active" href="#">仪器列表</a>
+      <a class="nav-link" href="#">仪器的使用记录</a>
+      <a class="nav-link" href="#">仪器的使用评分</a>
+      <a class="nav-link" href="#">黑名单</a>
+  </nav>
+  <?= $searchForm ?>      
+  <ul class="nav nav-tabs">
+      <li class="nav-item">
+          <a class="nav-link active" href="#">正常设备</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#">故障设备</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#">废弃设备</a>
+      </li>
+  </ul>
+  <div class="table-container bg-white">
+    <table class="table">
+      <thead>
+        <th><?= T('仪器名称') ?></th>
+        <th><?= T('仪器英文名称') ?></th>
+        <th><?= T('仪器型号') ?></th>
+        <th><?= T('放置地点') ?></th>
+        <th><?= T('操作') ?></th>
+      </thead>
+      <tbody>
+        <?php
+        if ($data) foreach ($data as $v) :
+          $id = $v['id'];
+          $name = $v['name'];
+          $enName = $v['en_name'];
+          $mode_no = $v['mode_no'];
+          $location = $v['location'];
+        ?>
+        <tr>
+          <td><?= $name?></td>
+          <td><?= $enName?></td>
+          <td><?= $mode_no?></td>
+          <td><?= $location?></td>
+          <td>
+            <a href="equipment/edit/<?=$id?>" class="btn btn-primary btn-sm" role="button" aria-disabled="true">编辑</a>
+            <button class="btn btn-secondary btn-sm delete" data="<?=$id?>" role="button" aria-disabled="true">删除</button>
+          </td>
+        </tr>
+        <?php endforeach;?>
+      </tbody>
+    </table>
+  </div>
+</div>
+<?= $pagination ?>
+
+<script>
+  $('.delete').click(function(){
+    var id = $(this).attr('data');
+    $.ajax({
+      url: 'ajax/equipment/delete/'+id,
+      dataType:'json',
+      success:function(res){
+        if(res.result == "success"){
+          alert('删除成功');
+          location.reload() 
+        }else{
+          aleert('删除失败');
+        }
+      }
+    })
+  })
+</script>

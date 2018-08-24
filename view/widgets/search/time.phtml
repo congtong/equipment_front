@@ -1,0 +1,14 @@
+<div class="col-md-8 search_height">
+  <div class="input-group heighted">
+    <span class="input-group-addon"><?= $search['title'] ?></span>
+    <div data-date-format="dd MM yyyy - HH:ii p">
+      <input class="form-control form_datetime input-sm" type="text" placeholder="起始时间" name="<?= $name . '[]' ?>" 
+      value="<?= H($search['value'][0]) ?>" style="font-size: 12px;">
+    </div>
+    <span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+    <div data-date-format="dd MM yyyy - HH:ii p">
+      <input class="form-control form_datetime input-sm" type="text" placeholder="截止时间" 
+      name="<?= $name ?>[]" value="<?= H($search['value'][1]) ?>" style="font-size: 12px;">
+    </div>
+  </div><!-- /input-group -->
+</div>
