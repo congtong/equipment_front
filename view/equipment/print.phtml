@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+  <title><?= T('仪器目录')?></title>
+  <base href="<?= H(URL('/')) ?>">
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="assets/icon/favicon.png">
+  <script type="text/javascript">
+    window.onload=function(){
+      window.print()
+    }
+  </script>
+  <style type="text/css">
+    table {border: 2px solid #333;width: 694px;margin: 10px auto;}
+    td {border: 1px solid #777;padding: 5px;}
+  </style>
+</head>
+<body style="width: 794px;">
+    <h3 style="text-align:center;"><?= T('仪器目录') ?></h3>
+    <div style="width: 90%;height:1px;margin:5px auto;border: 1px dashed #333;" class="clearfix"></div>
+    <table>
+      <tbody>
+      <tr>
+        <td><?= T('仪器名称') ?></td>
+        <td><?= T('仪器英文名称') ?></td>
+        <td><?= T('仪器型号') ?></td>
+        <td><?= T('放置地点') ?></td>
+      </tr>
+      <?php foreach ($data as $v) :?>
+        <tr>
+          <td><?= H($v['name']) ?></td>
+          <td><?= H($v['en_name']) ?></td>
+          <td><?= H($v['model_no']) ?></td>
+          <td><?= H($v['location']) ?></td>
+        </tr>
+      <?php endforeach;?>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -96,6 +96,45 @@ class Equipment extends Layout\Layout {
             'fields' => $field
         ]);
     }
+
+    public function actionPrint(){
+        $data = thoseIndexed('equipment')->fetch(0); 
+        $this->view = V('equipment/print', [
+            'data' => $data['data']
+        ]);
+    }
+    public function actionExport () {
+        
+        $data = thoseIndexed('equipment')->fetch(0);
+        require_once APP_PATH . '/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
+        $excel = new \PHPExcel();
+        $excel->setActiveSheetIndex(0);
+        $active = $excel->getActiveSheet();
+        
+        $active->setCellValue('A1', '仪器名称');
+        $active->setCellValue('B1', '仪器英文名称');
+        $active->setCellValue('C1', '仪器型号');
+        $active->setCellValue('D1', '放置地点');
+        
+        $index = 2;
+        foreach ($data['data'] as $v) {
+            $active->setCellValue('A' . $index, H($v['name']));
+            $active->setCellValue('B' . $index, H($v['en_name']));
+            $active->setCellValue('C' . $index, H($v['en_name']));
+            $active->setCellValue('D' . $index, H($v['en_name']));
+            $index ++;
+        }
+
+        header("Accept-Ranges:bytes");
+        header("Content-type: text/xls");
+        header('Content-Disposition: attachment; filename=' . time() . '.xls');
+        header("Pragma:no-cache");
+        header("Expires: 0");
+
+        $writer = \PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $writer->save('php://output');
+        exit;
+    }
     /**
      * 获取放置位置数据
      * 
