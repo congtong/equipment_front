@@ -3,6 +3,7 @@
 namespace Gini\Controller\CGI\AJAX;
 
 use \Gini\CGI\Response;
+use \Gini\CGI\Validator;
 
 class Equipment extends \Gini\Controller\CGI {
 
@@ -23,9 +24,33 @@ class Equipment extends \Gini\Controller\CGI {
     public function actionSave() {
         $response['result'] = 'error';
         $form = $this->form('post');
-        $data = $this->rest->post($this->module, $form);
-        if (is_array($data)) {
-            $response['result'] = 'success';
+        $validator = new Validator;
+        try {
+            $except = ['ctime'];
+            $validator
+                ->validate('name', !!$form['name'], T('仪器名称必填'))
+                ->validate('incharges', !!$form['incharges'], T('负责人必填'))
+                ->validate('contacts', !!$form['contacts'], T('联系人必填'));
+            if (isset($form['share']) && $form['share'] == 1 ) {
+                $validator
+                    ->validate('domain', !!$form['domain'], T('主要测试和研究领域必填'))
+                    ->validate('refer_charge_rule', !!$form['refer_charge_rule'], T('参考收费标准必填'))
+                    ->validate('open_calendar', !!$form['open_calendar'], T('开放机时安排必填'))
+                    ->validate('assets_code', !!$form['assets_code'], T('固定资产分类编必填'))
+                    ->validate('certification', !!$form['certification'], T('仪器认证情况必填'))
+                    ->validate('classification_code', !!$form['classification_code'], T('共享分类编码必填'))
+                    ->validate('manu_certification', !!$form['manu_certification'], T('生产厂商资质必填'))
+                    ->validate('manu_country_code', !!$form['manu_country_code'], T('产地国别必填'))
+                    ->validate('share_level', !!$form['share_level'], T('共享特色代码必填'));
+            }
+            $validator->done();
+            $data = $this->rest->post($this->module, $form);
+            if (is_array($data)) {
+                $response['result'] = 'success';
+            }
+        } catch (Validator\Exception $e) {
+            $code = 400;
+            $response = $validator->errors();
         }
         return new Response\JSON($response, $code);
     }
@@ -36,9 +61,17 @@ class Equipment extends \Gini\Controller\CGI {
      */
     public function actionDelete($id = 0) {
         $response['result'] = 'error';
-        $res = $this->rest->delete($this->module.'/'.$id);
-        if ($res) {
-            $response['result'] = 'success';
+        $validator = new Validator;
+        try {
+            $validator->validate('id', $id && is_numeric($id) ? true : false, T('id格式不正确'));
+            $validator->done();
+            $res = $this->rest->delete($this->module.'/'.$id);
+            if ($res) {
+                $response['result'] = 'success';
+            }
+        } catch (\Validator\Exception $e) {
+            $code = 400;
+            $response = $validator->errors();
         }             
         return new Response\JSON($response, $code);
     }

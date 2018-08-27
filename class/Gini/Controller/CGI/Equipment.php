@@ -1,4 +1,5 @@
 <?php
+
 namespace Gini\Controller\CGI;
 
 use Gini\Model\Location;
