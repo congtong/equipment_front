@@ -1,4 +1,5 @@
-<form class="bg-white" id='equipmentForm'>
+<form class="bg-white" id='equipmentForm' method="post" role="form" 
+        action="gini-ajax:ajax/equipment/save">
     <?php if ($fields) foreach ($fields as $name => $field) :
         $title = $field['title'];
         $type = $field['type'];
@@ -16,7 +17,7 @@
                 </div>
                 <?php if ($require) : ?>
                 <div class="col-sm-2">
-                <span class="require">*必填</span>
+                <span class="require">*<?=T('必填')?></span>
                 </div>
                 <?php endif; ?>
             </div>
@@ -33,7 +34,7 @@
                 </div>
                 <?php if ($require) : ?>
                 <div class="col-sm-2">
-                    <span class="require">*必填</span>
+                    <span class="require">*<?=T('必填')?></span>
                 </div>
                 <?php endif; ?>
             </div>
@@ -46,7 +47,7 @@
                 </div>
                 <?php if ($require) : ?>
                     <div class="col-sm-2">
-                        <span class="require">*必填</span>
+                        <span class="require">*<?=T('必填')?></span>
                     </div>
                 <?php endif; ?>
             </div>
@@ -65,32 +66,38 @@
 </form>
 <div class="form-group form-field-ro padder10">
         <div class="offset-md-4 col-md-4">
-        <button id="saveButton" type="submit" class="btn btn-primary"><?= T('保存')?></button>
+        <button id="saveButton" type="submit" form="equipmentForm" class="btn btn-primary"><?= T('保存')?></button>
         </div>
 </div>
 <script>
-$('#saveButton').click(function() {
-        var formdata = new FormData($("#equipmentForm")[0]);
-        var name = formdata.get('name');
-        var incharges = formdata.get('incharges');
-        var contacts = formdata.get('contacts');
-        if (name == '' || incharges == '' || contacts == '') {
-            alert('请输入必填项');
-        }
-        $.ajax({
-            url: 'ajax/equipment/save',
-            data: formdata,
-            type: 'post',
-            processData: false,
-            contentType: false,  
-            success:function(res){
-                if (res.result == 'success') {
-                    alert('保存成功');
-                    window.location.href="equipment";
-                } else {
-                    alert('保存失败');
-                }
+
+$('body').on('submit', 'form[action^="gini-ajax:"]', function (e) {
+    if ($(this).data('delegated')) return false;
+
+    e.preventDefault();
+
+    var $form = $(this);
+
+    $form.trigger('ajax-before');
+
+    $.ajax({
+        type: $form.attr('method') || "POST",
+        url: $form.attr('action').substring(10),
+        data: $form.serialize(),
+        success: function (html) {
+            if(html.indexOf('replace') != -1){
+                alert('保存成功');
+            }else{
+                alert('保存失败');
             }
-        })
-    })
+            $form.trigger('ajax-success', html);
+            $('body').append(html).find('script[data-ajax]').remove();
+        },
+        complete: function () {
+            $form.trigger('ajax-complete');
+        }
+    });
+
+    return false;
+});
 </script>

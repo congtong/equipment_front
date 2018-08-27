@@ -22,4 +22,5 @@ namespace {
             return \Gini\IoC::construct('\Gini\Module\ThoseIndexed', $name);
         }
     }
+    
 }

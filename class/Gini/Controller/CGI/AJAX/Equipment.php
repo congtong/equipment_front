@@ -46,13 +46,11 @@ class Equipment extends \Gini\Controller\CGI {
             $validator->done();
             $data = $this->rest->post($this->module, $form);
             if (is_array($data)) {
-                $response['result'] = 'success';
+                return \Gini\IoC::construct('\Gini\CGI\Response\Redirect', 'equipment');
             }
         } catch (Validator\Exception $e) {
-            $code = 400;
-            $response = $validator->errors();
+            return \Gini\IoC::construct('\Gini\CGI\Response\Redirect');
         }
-        return new Response\JSON($response, $code);
     }
     /**
      *  删除功能接口
@@ -60,19 +58,19 @@ class Equipment extends \Gini\Controller\CGI {
      * @return json 删除成功返回success 删除失败返回error
      */
     public function actionDelete($id = 0) {
-        $response['result'] = 'error';
+        $res = true;
         $validator = new Validator;
         try {
             $validator->validate('id', $id && is_numeric($id) ? true : false, T('id格式不正确'));
             $validator->done();
             $res = $this->rest->delete($this->module.'/'.$id);
-            if ($res) {
-                $response['result'] = 'success';
-            }
         } catch (\Validator\Exception $e) {
-            $code = 400;
-            $response = $validator->errors();
-        }             
-        return new Response\JSON($response, $code);
+            $res = false;
+        }
+        if ($res) {
+            return \Gini\IoC::construct('\Gini\CGI\Response\Redirect','equipment');
+        } else {
+            return \Gini\IoC::construct('\Gini\CGI\Response\Redirect');
+        }
     }
 }
