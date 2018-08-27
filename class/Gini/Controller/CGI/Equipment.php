@@ -106,7 +106,6 @@ class Equipment extends Layout\Layout {
     public function actionExport () {
         
         $data = thoseIndexed('equipment')->fetch(0);
-        require_once APP_PATH . '/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
         $excel = new \PHPExcel();
         $excel->setActiveSheetIndex(0);
         $active = $excel->getActiveSheet();

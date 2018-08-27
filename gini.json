@@ -3,5 +3,19 @@
     "name": "equipment_module_front",
     "description": "仪器管理模块前台功能",
     "version": "0.1.0",
-    "dependencies": {}
+    "dependencies": {},
+    "composer": {
+        "require": {
+            "phpoffice/phpexcel": "^1.8"
+        },
+        "repositories": [
+            {
+                "type": "composer",
+                "url": "https://packagist.phpcomposer.com"
+            }
+        ],
+        "config": {
+            "secure-http": false
+        }
+    }
 }

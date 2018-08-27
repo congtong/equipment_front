@@ -1,21 +1,21 @@
 <div class="panel panel-default table-responsive">
   <!-- 搜索模块 -->
   <nav class="nav nav-pills nav-justified bg-white padder-m m-b-sm">
-      <a class="nav-link active" href="#"><?=T('仪器列表')?></a>
-      <a class="nav-link" href="#"><?=T('仪器的使用记录')?></a>
-      <a class="nav-link" href="#"><?=T('仪器的使用评分')?></a>
-      <a class="nav-link" href="#"><?=T('黑名单')?></a>
+      <a class="nav-link active" href="equipment"><?=T('仪器列表')?></a>
+      <a class="nav-link" href="equipment"><?=T('仪器的使用记录')?></a>
+      <a class="nav-link" href="equipment"><?=T('仪器的使用评分')?></a>
+      <a class="nav-link" href="equipment"><?=T('黑名单')?></a>
   </nav>
   <?= $searchForm ?>      
   <ul class="nav nav-tabs">
       <li class="nav-item">
-          <a class="nav-link active" href="#"><?=T('正常设备')?></a>
+          <a class="nav-link active" href="equipment"><?=T('正常设备')?></a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="#"><?=T('故障设备')?></a>
+          <a class="nav-link" href="equipment"><?=T('故障设备')?></a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="#"><?=T('废弃设备')?></a>
+          <a class="nav-link" href="equipment"><?=T('废弃设备')?></a>
       </li>
   </ul>
   <div class="table-container bg-white">
@@ -42,8 +42,8 @@
           <td><?= H($mode_no)?></td>
           <td><?= H($location)?></td>
           <td>
-            <a href="equipment/edit/<?=$id?>" class="btn btn-primary btn-sm" role="button" aria-disabled="true">编辑</a>
-            <a href="gini-ajax:ajax/equipment/delete/<?=$id?>" class="btn btn-secondary btn-sm delete" data="<?=$id?>" role="button" aria-disabled="true">删除</a>
+            <a href="equipment/edit/<?=$id?>" class="btn btn-primary btn-sm" role="button" aria-disabled="true"><?= T('编辑')?></a>
+            <a href="gini-ajax:ajax/equipment/delete/<?=$id?>" class="btn btn-secondary btn-sm delete" data="<?=$id?>" role="button" aria-disabled="true"><?= T('删除')?></a>
           </td>
         </tr>
         <?php endforeach;?>
