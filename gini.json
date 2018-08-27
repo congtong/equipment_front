@@ -6,7 +6,8 @@
     "dependencies": {},
     "composer": {
         "require": {
-            "phpoffice/phpexcel": "^1.8"
+            "phpoffice/phpexcel": "^1.8",
+            "twbs/bootstrap":"4.0.0"
         },
         "repositories": [
             {
