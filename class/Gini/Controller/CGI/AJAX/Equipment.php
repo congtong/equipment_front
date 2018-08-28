@@ -46,9 +46,17 @@ class Equipment extends \Gini\Controller\CGI {
             $validator->done();
             $data = $this->rest->post($this->module, $form);
             if (is_array($data)) {
+                $_SESSION['alert'] = [
+                    'type' => 'success',
+                    'message' => T('保存成功'),
+                ];
                 return \Gini\IoC::construct('\Gini\CGI\Response\Redirect', 'equipment');
             }
         } catch (Validator\Exception $e) {
+            $_SESSION['alert'] = [
+                'type' => 'success',
+                'message' => T('保存失败'),
+            ];
             return \Gini\IoC::construct('\Gini\CGI\Response\Redirect');
         }
     }
@@ -68,6 +76,10 @@ class Equipment extends \Gini\Controller\CGI {
             $res = false;
         }
         if ($res) {
+            $_SESSION['alert'] = [
+                'type' => 'success',
+                'message' => T('删除成功'),
+            ];
             return \Gini\IoC::construct('\Gini\CGI\Response\Redirect','equipment');
         } else {
             return \Gini\IoC::construct('\Gini\CGI\Response\Redirect');

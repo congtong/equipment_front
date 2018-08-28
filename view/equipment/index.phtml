@@ -1,4 +1,15 @@
 <div class="panel panel-default table-responsive">
+<?php if ($_SESSION['alert']) : ?>
+    <div class="alert alert-<?= $_SESSION['alert']['type'] ?> alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        <?php
+        echo $_SESSION['alert']['message'];
+        unset($_SESSION['alert']);
+        ?>
+    </div>
+<?php endif; ?>  
   <!-- 搜索模块 -->
   <nav class="nav nav-pills nav-justified bg-white padder-m m-b-sm">
       <a class="nav-link active" href="equipment"><?=T('仪器列表')?></a>
@@ -65,11 +76,6 @@ $('body').on('click', 'a[href^="gini-ajax:"]', function (e) {
         type: "GET",
         url: $link.attr('href').substring(10),
         success: function(html) {
-            if(html.indexOf('replace') != -1){
-                alert('保存成功');
-            }else{
-                alert('保存失败');
-            }
             $link.trigger('ajax-success', html);
             $('body').append(html).find('script[data-ajax]').remove();
         },

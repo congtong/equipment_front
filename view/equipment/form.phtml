@@ -85,11 +85,6 @@ $('body').on('submit', 'form[action^="gini-ajax:"]', function (e) {
         url: $form.attr('action').substring(10),
         data: $form.serialize(),
         success: function (html) {
-            if(html.indexOf('replace') != -1){
-                alert('保存成功');
-            }else{
-                alert('保存失败');
-            }
             $form.trigger('ajax-success', html);
             $('body').append(html).find('script[data-ajax]').remove();
         },
