@@ -36,7 +36,7 @@
         <th><?= T('仪器英文名称') ?></th>
         <th><?= T('仪器型号') ?></th>
         <th><?= T('放置地点') ?></th>
-        <th><?= T('操作') ?></th>
+        <th class="text-right"><?= T('操作') ?></th>
       </thead>
       <tbody>
         <?php
@@ -52,7 +52,7 @@
           <td><?= H($enName)?></td>
           <td><?= H($mode_no)?></td>
           <td><?= H($location)?></td>
-          <td>
+          <td class="text-right">
             <a href="equipment/edit/<?=$id?>" class="btn btn-primary btn-sm" role="button" aria-disabled="true"><?= T('编辑')?></a>
             <a href="gini-ajax:ajax/equipment/delete/<?=$id?>" class="btn btn-secondary btn-sm delete" data="<?=$id?>" role="button" aria-disabled="true"><?= T('删除')?></a>
           </td>

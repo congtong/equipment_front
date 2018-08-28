@@ -5,7 +5,7 @@ if (!$step) {
 $pages = ceil($total / $step);
 $query = (string)http_build_query($form ? : []);
 ?>
-<nav class="text-right">
+<nav class="pull-right">
   <ul class="pagination">
   <?php
   if ($pages <= 6) :

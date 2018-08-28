@@ -10,7 +10,7 @@
             $(this).children().children().children()[0].className = className;
         })
     });
-
+    $('[data-toggle="tooltip"]').tooltip()
 })(window);
 
 $('body').on('click', 'a[href^="gini-ajax:"]', function (e) {
