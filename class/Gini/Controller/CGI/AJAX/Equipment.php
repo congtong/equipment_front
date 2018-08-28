@@ -54,7 +54,7 @@ class Equipment extends \Gini\Controller\CGI {
             }
         } catch (Validator\Exception $e) {
             $_SESSION['alert'] = [
-                'type' => 'success',
+                'type' => 'danger',
                 'message' => T('保存失败'),
             ];
             return \Gini\IoC::construct('\Gini\CGI\Response\Redirect');
@@ -82,6 +82,10 @@ class Equipment extends \Gini\Controller\CGI {
             ];
             return \Gini\IoC::construct('\Gini\CGI\Response\Redirect','equipment');
         } else {
+            $_SESSION['alert'] = [
+                'type' => 'danger',
+                'message' => T('删除失败'),
+            ];
             return \Gini\IoC::construct('\Gini\CGI\Response\Redirect');
         }
     }
