@@ -63,28 +63,3 @@
   </div>
 </div>
 <?= $pagination ?>
-
-<script>
-$('body').on('click', 'a[href^="gini-ajax:"]', function (e) {
-    var $link = $(this);
-
-    e.preventDefault();
-
-    $link.trigger('ajax-before');
-
-    $.ajax({
-        type: "GET",
-        url: $link.attr('href').substring(10),
-        success: function(html) {
-            $link.trigger('ajax-success', html);
-            $('body').append(html).find('script[data-ajax]').remove();
-        },
-        complete: function() {
-            $link.trigger('ajax-complete');
-        }
-    });
-
-    return false;
-});
-
-</script>

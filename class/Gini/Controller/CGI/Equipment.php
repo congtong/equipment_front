@@ -70,7 +70,7 @@ class Equipment extends Layout\Layout {
      */
     public function actionAdd () {
         $this->view->body = V('equipment/form', [
-            'fields' => $this->saveField()
+            'fields' => \Gini\Config::get('equipment.form')
         ]);
     }
     /**
@@ -81,7 +81,7 @@ class Equipment extends Layout\Layout {
     public function actionEdit($id = 0) {
         $rest = \Gini\ORM\ThoseIndexed\Object::getRest();
         $data = $rest->get('equipment/'.$id);
-        $field = $this->saveField();
+        $field = \Gini\Config::get('equipment.form');
         foreach ($field as $key => &$v) {
             if (isset($data[$key])) {
                 $v['value'] = $data[$key];
@@ -96,14 +96,23 @@ class Equipment extends Layout\Layout {
             'fields' => $field
         ]);
     }
-
-    public function actionPrint(){
+    /**
+     * 打印方法
+     * 
+     * @return view 返回view视图
+     */
+    public function actionPrint() {
         $filter = $_SESSION['filter'];
         $data = thoseIndexed('equipment')->filter($filter)->fetch(0); 
         $this->view = V('equipment/print', [
             'data' => $data['data']
         ]);
     }
+    /**
+     * 导出方法
+     * 
+     * @return view 导出方法
+     */
     public function actionExport () {
         $filter = $_SESSION['filter'];
         $data = thoseIndexed('equipment')->filter($filter)->fetch(0);
@@ -115,13 +124,17 @@ class Equipment extends Layout\Layout {
         $active->setCellValue('B1', '仪器英文名称');
         $active->setCellValue('C1', '仪器型号');
         $active->setCellValue('D1', '放置地点');
+        $active->setCellValue('E1', '制作国家');
+        $active->setCellValue('F1', '生产厂家');
         
         $index = 2;
         foreach ($data['data'] as $v) {
             $active->setCellValue('A' . $index, H($v['name']));
             $active->setCellValue('B' . $index, H($v['en_name']));
-            $active->setCellValue('C' . $index, H($v['en_name']));
-            $active->setCellValue('D' . $index, H($v['en_name']));
+            $active->setCellValue('C' . $index, H($v['mode_no']));
+            $active->setCellValue('D' . $index, H($v['location']));
+            $active->setCellValue('E' . $index, H($v['manu_at']));
+            $active->setCellValue('F' . $index, H($v['manu_facturer']));
             $index ++;
         }
 
@@ -135,152 +148,16 @@ class Equipment extends Layout\Layout {
         $writer->save('php://output');
         exit;
     }
-    /**
-     * 获取放置位置数据
-     * 
-     * @return array 返回下拉框列表数据
-     */
-    public function getLocation() { 
-        return Location::getData();
-    }
-    /**
-     * 表单需要的字段
-     * 
-     * @return array 返回需要显示的字段数组
-     */
-    protected function saveField() {
-        return [
-            'name' => [
-                'title' => '仪器名称',
-                'type' => 'text',
-                'require' => true,
-                'value' => '',
-            ],
-            'en_name' => [
-                'title' => '英文名称',
-                'type' => 'text',
-                'require' => false,
-                'value' => '',
-            ],
-            'mode_no' => [
-                'title' => '型号',
-                'type' => 'text',
-                'require' => false,
-                'value' => '',
-            ],
-            'specification' => [
-                'title' => '规格',
-                'type' => 'text',
-                'require' => false,
-                'value' => '',
-            ],
-            'manu_at' => [
-                'title' => '制作国家',
-                'type' => 'text',
-                'require' => false,
-                'value' => '',
-            ],
-            'manu_facturer' => [
-                'title' => '生产厂家',
-                'type' => 'text',
-                'require' => false,
-                'value' => '',
-            ],
-            'location' => [
-                'title' => '放置地点',
-                'type' => 'text',
-                'requoire' => false,
-                'value' => '',
-            ],
-            'tech_specs' => [
-                'title' => '主要规格及技术指标',
-                'type' => 'textarea',
-                'require' => false,
-                'value' => '',
-            ],
-            'incharges' => [
-                'title' => '负责人',
-                'type' => 'select',
-                'require' => true,
-                'options' => $this->peopoleOptions(),
-                'value' => '',
-            ],
-            'contacts' => [
-                'title' => '联系人',
-                'type' => 'select',
-                'require' => true,
-                'options' => $this->peopoleOptions(),
-                'value' => '',
-            ],
-            'school_level' => [
-                'title' => '校级设备',
-                'type' => 'radio',
-                'options' => $this->optionsRaido(),
-                'require' => true,
-                'value' => '',
-            ],
-            'yiqikong_share' => [
-                'title' => '进驻仪器控',
-                'type' => 'radio',
-                'options' => $this->optionsRaido(),
-                'require' => true,
-                'value' => '',
-            ]
-        ];
-    }
-    /**
-     * radio需要的测试数据无相关表设计
-     * 
-     * @return array 返回选项数组
-     */
-    protected function optionsRaido() {
-        return [
-            1 => '是',
-            0 => '否'
-        ];
-    }
-    /**
-     * select需要的测试数据，无人员表的设计
-     * 
-     * @return array 返回选项数组
-     */
-    protected function peopoleOptions() {
-        return [
-            '1' => '用户1',
-            '2' => '用户2',
-        ];
-    }
+    
     /**
      * 搜索需要的字段
      * 
      * @return array 返回搜索框需要的字段数组
      */
     protected function fields() {
-        return [
-            'name' => [
-                'title' => '仪器名称',
-                'operate' => 'li',
-                'type'  => 'text'
-            ],
-            'ref_no' => [
-                'title' => '仪器编号',
-                'type' => 'text'
-            ],
-            'group' => [
-                'title' => '组织机构',
-                'type'  => 'text'
-            ],
-            'location' => [
-                'title' => '放置位置',
-                'type'  => 'select',
-                'values' => $this->getLocation()
-            ],
-            'atime' => [
-                'title' => '入网时间',
-                'operate' => 'bt',
-                'type'  => 'time'
-            ]
-        ];
+        $data = \Gini\Config::get('equipment.search');
+        $data['location']['values'] = Location::getData();
+        return $data;
     }
     
 }

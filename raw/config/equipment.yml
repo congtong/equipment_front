@@ -1,0 +1,92 @@
+form:
+ name:
+  title: '仪器名称'
+  type: 'text'
+  require: true
+  value: ''
+ en_name:
+  title: '英文名称'
+  type: 'text'
+  require: false
+  value: ''
+ mode_no:
+  title: '型号'
+  type: 'text'
+  require: false
+  value: ''
+ specification:
+  title: '规格'
+  type: 'text'
+  require: false
+  value: ''
+ manu_at:
+  title: '制作国家'
+  type: 'text'
+  require: false
+  value: ''  
+ manu_facturer:
+  title: '生产厂家'
+  type: 'text'
+  require: false
+  value: ''
+ location:
+  title: '放置地点'
+  type: 'text'
+  require: false
+  value: ''
+ tech_specs:
+  title: '主要规格及技术指标'
+  type: 'textarea'
+  require: false
+  value: ''
+ incharges:
+  title: '负责人'
+  type: 'select'
+  require: true
+  value: ''
+  options:
+    1: '用户1'
+    2: ’用户2‘
+ contacts:
+  title: '联系人'
+  type: 'select'
+  require: true
+  value: ''
+  options:
+    1: '用户1'
+    2: ’用户2‘
+ school_level:
+  title: '校级设备'
+  type: 'radio'
+  require: true
+  value: ''
+  options:
+     0: '否'
+     1: '是'
+ yiqikong_share:
+  title: '进驻仪器控'
+  type: 'radio'
+  require: true
+  value: ''
+  options:
+     0: '否'
+     1: '是' 
+search:
+ name:
+  title: '仪器名称'
+  operate: 'li'
+  type: 'text'
+ ref_no:
+  title: '仪器编号'
+  type: 'text'
+ group:
+  title: '组织结构'
+  type: 'text'
+ location:
+  title: '放置位置'
+  type: 'select'
+  values: ''
+ atime:
+  title: '入网时间'
+  operate: 'bt'
+  type: 'time'
