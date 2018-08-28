@@ -37,7 +37,7 @@ class Equipment extends Layout\Layout {
         } else if (isset($form['atime']) && $form['atime'][0] != '' && $form['atime'][1] != '') {
             $filter['atime'] = array_merge(['bt'], $form['atime']);
         }
-
+        $_SESSION['filter'] = $filter;
         $equipment = thoseIndexed('equipment')->filter($filter); 
         $data = $equipment->fetch($start);
         $total = $equipment->total();
@@ -98,14 +98,15 @@ class Equipment extends Layout\Layout {
     }
 
     public function actionPrint(){
-        $data = thoseIndexed('equipment')->fetch(0); 
+        $filter = $_SESSION['filter'];
+        $data = thoseIndexed('equipment')->filter($filter)->fetch(0); 
         $this->view = V('equipment/print', [
             'data' => $data['data']
         ]);
     }
     public function actionExport () {
-        
-        $data = thoseIndexed('equipment')->fetch(0);
+        $filter = $_SESSION['filter'];
+        $data = thoseIndexed('equipment')->filter($filter)->fetch(0);
         $excel = new \PHPExcel();
         $excel->setActiveSheetIndex(0);
         $active = $excel->getActiveSheet();
